@@ -113,10 +113,10 @@ Davi F. Henrique
 \citeoption{ABNT-final}
 
 \begin{resumo}
- The Ethereum has been adopted for decentralized blockchain applications, being used in other areas than decentralized finances.
+ Ethereum has been adopted for building decentralized blockchain applications, being used in areas other than decentralized finances.
  Allowing a new universe of peer to peer interactions, in a secure, scalable way.
- In this paper we covered about Ethereum, how the trilemma of scalability, security and decentralization is addressed.
- Focussing on the database concepts involving the implementation of the protocol, such as how the consensus is made, how the data is stored in the blockchain, how the transaction mechanism work.
+ In this paper we cover about Ethereum, how the trilemma of scalability, security and decentralization is addressed.
+ Focussing on the database concepts involving the implementation of the protocol, such as how the consensus is made, how the data is stored in the blockchain, and how the transaction mechanism work.
  In order to better illustrate the concepts, we modeled a real estate application for the Ethereum blockchain platform by using Web3 components and concepts.
  
  \vspace{\onelineskip}
@@ -127,20 +127,20 @@ Davi F. Henrique
 \section{Introduction}
 
 The concept of decentralized databases has been around for decades.
-Wei Dai, in 1998, introduced the idea of creating money by solving computational puzzles, but the approach wasn't described in details such as how the decentralized consensus could be implemented.
+Wei Dai, in 1998, introduced the idea of creating money by solving computational puzzles, but the approach wasn't described in detail such as how the decentralized consensus could be implemented.
 The concept of "reusable proofs of work" emerged in 2005 from Hal Finney, by using the ideas from Wei Dai to create a concept for a cryptocurrency. 
 The system fell short due to relying on trusted computing as a backend \cite{buterin_eth_whitepaper_2013}.
 
 Decentralized currencies require decentralized consensus, which has been addressed in researches prior to the Bitcoin paper.
-However, the protocols only solved the problem, known as the \textit{trilemma} of security, scalability and security in a partial manner.
-By assuming that all participants are known, and produced security margins, which in anonymous setting are vulnerable to Sybil attacks \cite{buterin_eth_whitepaper_2013}.
+However, the protocols only solved the problem, known as the \textit{trilemma} of security, scalability and security.
+By assuming that all participants are known, and produced security margins, which in an anonymous setting are vulnerable to Sybil attacks \cite{buterin_eth_whitepaper_2013}.
 
 The Bitcoin paper published by \citeauthor{nakamoto_bitcoin_2008} combined a simple decentralized consensus protocol, based on nodes grouping transactions into a block which is created every ten minutes.
 Because the protocol uses proof of work, nodes with more computational power have more influence in the system.
-It's more difficult to have more computational power than the network, comparing to simulating a million of nodes \cite{buterin_eth_whitepaper_2013}.
+It's more difficult to have the majority power of the network, compared to simulating a million of nodes \cite{buterin_eth_whitepaper_2013}.
 
-Besides the simplicity, Bitcoin was the first decentralized global ledger to become widely adopted \cite{wood_ethereum_2021}.
-Being a foundation for other projects and cryptocurrencies, known as alternative coins, such as Litecoin and Primecoin.
+Despite its simplicity, Bitcoin was the first decentralized public ledger to become widely adopted \cite{wood_ethereum_2021}.
+Bitcoin became a foundation for other projects and cryptocurrencies, known as alternative coins, such as Litecoin and Primecoin.
 There were projects that repurposed the mechanism of the protocol to beyond a cryptocurrency, such as Namecoin which aims to provide a decentralized name-resolution system \cite{wood_ethereum_2021}.  
 
 
@@ -151,7 +151,7 @@ With a Turing-complete script language, which allows the creation of smart contr
 Ethereum was announced at The North American Bitcoin Conference in Miami, in 2014.
 Having the first version launched in 2015, mainly for mining Ether and the test of decentralized applications \cite{eth_history_jianing_2021}. 
 
-The system can be viewed as a database, a state machine with a transaction system in which transitions are executed incrementally.
+The system can be viewed as a database, a state machine with a transaction system in which transactions are executed incrementally.
 Transactions are grouped into blocks, which are chained together in a chronological fashion, using a cryptographic hash function, that can be used as a reference for each block.
 Because each transaction is registered in a chronological order, the block acts as a journal, allowing a history view of the global state.
 
@@ -164,8 +164,8 @@ In order to form an agreement upon which path is canonical, to generate a consen
 \section{Accounts}
 
 There are two types of accounts, External Owned Account (EOA) and Contract Account.
-External Owned Accounts are controlled by private keys, Contract Accounts are controlled by their contract code.
-EOA doesn't contain contract code, but can be used to create a contract account, the act of deploying a smart contract.
+External Owned Accounts are controlled by private keys, whilst Contract Accounts are controlled by their contract code.
+EOAs don't contain contract code, but can be used to create a contract account, the act of deploying a smart contract.
 Each account has a 20 byte address and state transitions \cite{wood_ethereum_2021}. 
 An account has four fields:
 
@@ -175,7 +175,7 @@ An account has four fields:
     The main purpose of this field is to make sure each transaction is processed once. 
     
     \item Balance. 
-    The current balance of the account, expressed in Wei.
+    The current balance of the account, expressed in wei.
     
     \item Storage root.
     A hash of the root node of the tree that store the storage of this account.
@@ -185,7 +185,7 @@ An account has four fields:
     This is the only immutable field.
 \end{alineas}
 
-Whenever one transaction issued by the account is processed, the nonce is incremented, the balance change when Ether is transferred, but for a contract account the code hash is immutable.
+Whenever one transaction issued by the account is processed, the nonce is incremented, the balance changes when Ether is transferred, but for a contract account the code hash is immutable.
 That is, after the deployment of a smart contract, its code can't be changed.
 This arises the importance of good software engineering practices such as automated testing to prevent faulty software.
 The concept of upgradable smart contracts exists and allows the change of a contract code by using a proxy mechanism \cite{openzeppelin_proxy_upgrade}.
@@ -219,7 +219,7 @@ A transaction has the given fields:
 \end{alineas}
 
 In order to prevent infinite loops in the execution of a transaction, it's required to set the limit of gas that can be used.
-It's possible to call, in a read only manner, a contract account to retrieve data or to simulate a transaction \footnote{https://web3js.readthedocs.io/en/v1.2.9/web3-eth.html?highlight=call\#call}.
+It's possible to call functions, in a read only manner, a contract account to retrieve data or to simulate a transaction \footnote{https://web3js.readthedocs.io/en/v1.2.9/web3-eth.html?highlight=call\#call}.
 This transaction doesn't cost Ether and is executed locally in the node that receives it, but it's not broadcasted in the network to be included in a new block.
 The changes are discarded when the execution of the transaction is finished and the returned value of the function called is returned.
 
@@ -303,7 +303,7 @@ The block number of the leaf, which is the number of blocks, helps to determine 
 In the \autoref{fig:blockchain_tree} an attacker tries to manipulate the transactions in an honest network by mining fraudulent blocks. 
 The main chain selected wasn't the longest chain, but the one that the subtree has more cardinality. 
 
-When the Ethereum protocol change, there might be a permanent fork in the network due to actors not agreeing about the change.
+When the Ethereum protocol changes, there might be a permanent fork in the network due to actors not agreeing about the change.
 To distinguish between diverged blockchains, the Ethereum improvement proposal 155 by Buterin introduced the concept of chain ID \cite{wood_ethereum_2021}.
 
 
@@ -380,8 +380,8 @@ The code implemented is small due to the usage of the base implementation of ERC
 \subsection{User management}
 
 The user management contract allows users to sign up by providing their contact information, such as e-mail, cellphone.
-The user can then be approved by a realtor, so that he can buy or own a real estate.
-This contract has a RBAC system, having an approver role.
+The user can then be approved by a realtor, so that he or she can buy or own a real estate.
+This contract has an RBAC system, having an approver role.
 
 This contract is used by the real estate contract to register the owner of a given real estate.
 There are events emitted when a user is registered, approved or denied.
