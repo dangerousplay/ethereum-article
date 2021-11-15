@@ -1,0 +1,72 @@
+@startuml
+class RealEstateToken <<Contract>> {
+ -CountersUpgradeable.Counter _tokenIdCounter
+ -UserManagement userManagement
+ -{field} mapping (uint256 => Estate) estates
+ +bytes32 MINTER_ROLE
+ +initialize(address userManagementAddress)
+ +safeMint(address to, Estate memory estate)
+}
+
+class EstateRegistered <<Event>> {
+  +address indexed owner
+  +uint256 indexed tokenId
+  +Estate estate
+}
+
+class ERC721Upgradeable <<Contract>> {
+    +balanceOf(address owner) returns (uint256)
+    +ownerOf(uint256 tokenId) returns (address)
+    +name() returns (string memory)
+    +symbol() returns (string memory)
+    +tokenURI(uint256 tokenId) returns (string memory)
+    +approve(address to, uint256 tokenId)
+    +getApproved(uint256 tokenId) returns (address)
+    +setApprovalForAll(address operator, bool approved)
+    +isApprovedForAll(address owner, address operator) returns (bool)
+    +transferFrom(address from, address to, uint256 tokenId)
+    +safeTransferFrom(address from, address to, uint256 tokenId)
+}
+
+class AccessControlUpgradeable <<Contract>> {
+  +hasRole(bytes32 role, address account) returns (bool)
+  +getRoleAdmin(bytes32 role) returns (bytes32)
+  +grantRole(bytes32 role, address account)    
+  +revokeRole(bytes32 role, address account)
+  +renounceRole(bytes32 role, address account)
+}
+
+class EstatePlace <<Struct>> {
+    +string street
+    +string number
+    +string city
+    +string country
+    +string region
+    +string neighbour
+}
+
+enum EstateStatus {
+  OCCUPIED
+  AVAILABLE
+}
+
+
+class Estate <<Struct>> {
+    +EstatePlace place
+    +EstateStatus status
+    +bool isTrading
+    +bool isAcceptingEstate
+    +bool ownerIsHolder
+    +uint256 price
+    +string[] photos
+}
+
+RealEstateToken --> "*" Estate
+RealEstateToken --> EstateRegistered
+RealEstateToken --|> ERC721Upgradeable
+RealEstateToken --|> AccessControlUpgradeable
+
+EstateRegistered --> Estate
+Estate --> EstatePlace
+Estate --> EstateStatus
+@enduml

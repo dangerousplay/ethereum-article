@@ -1,0 +1,54 @@
+@startuml
+class UserManagement <<Contract>> {
+  -{field} mapping (address => User) private registered;
+  -{field} mapping (address => User) private pending;
+  +getUserStatus(address user) returns (UserStatus)
+  +isAdmin() public view returns(bool)
+  +register(User memory user)
+  +approve(address userAddress)
+  +denyUser(address userAddress)
+}
+
+class AccessControlUpgradeable <<Contract>> {
+  +hasRole(bytes32 role, address account) returns (bool)
+  +getRoleAdmin(bytes32 role) returns (bytes32)
+  +grantRole(bytes32 role, address account)    
+  +revokeRole(bytes32 role, address account)
+  +renounceRole(bytes32 role, address account)
+}
+
+class User {
+    +string name
+    +string cellphone
+    +string email
+}
+
+enum UserStatus {
+    REGISTERED
+    PENDING 
+    NOT_FOUND
+}
+
+class UserRegistered <<Event>> {
+  +address indexed userAddress
+  +User user
+}
+
+class UserApproved <<Event>> {
+  +address indexed userAddress
+  +address indexed sender
+}
+
+class UserDenied <<Event>> {
+  +address indexed userAddress
+  +address indexed sender
+}
+
+
+UserManagement --|> AccessControlUpgradeable
+UserManagement --> UserDenied
+UserManagement --> UserApproved
+UserManagement --> UserRegistered
+UserRegistered --> User
+UserManagement --> UserStatus
+@enduml
